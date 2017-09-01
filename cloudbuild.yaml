@@ -1,0 +1,10 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "fai_bootstrap", "."]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["run", "--name", "fai_bootstrap", "--privileged", "-t", "fai_bootstrap", "fai-make-nfsroot", "-v"]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["commit", "-m", "chroot init", "fai_bootstrap", "eu.gcr.io/$PROJECT_ID/ethjar:fai"]
+
+timeout: 3600s
+images: ["eu.gcr.io/$PROJECT_ID/ethjar:fai"]
